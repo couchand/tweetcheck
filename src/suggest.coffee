@@ -1,6 +1,7 @@
 # suggest a better password
 
+improve = require './improve'
+
 module.exports = suggest = (input) ->
 
-  # TODO: this is a stub
-  input
+  improve input
