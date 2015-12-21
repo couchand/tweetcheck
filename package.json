@@ -17,5 +17,9 @@
     "grunt": "^0.4.5",
     "grunt-simple-mocha": "^0.4.0",
     "underscore": "^1.8.3"
+  },
+  "dependencies": {
+    "an-array-of-english-words": "^1.0.1",
+    "trie": "^0.2.1"
   }
 }
