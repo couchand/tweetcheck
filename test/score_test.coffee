@@ -16,7 +16,7 @@ describe "score", ->
 
   describe "with a word in the string", ->
     testReplaced = (input, typecount, wordlength) ->
-      it "return length times type count", ->
+      it "returns length times type count", ->
         actual = score input
         actual.should.equal (input.length - wordlength + 1) * typecount
 
