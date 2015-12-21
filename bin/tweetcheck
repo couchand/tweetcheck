@@ -1,0 +1,8 @@
+#!/usr/bin/coffee
+
+respond = require '../src/respond'
+
+input = process.argv[2]
+
+response = respond input
+console.log response
