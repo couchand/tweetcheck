@@ -16,7 +16,11 @@ describe "substitute", ->
 
   describe "with a word in the string", ->
     testSomething = (input, wordlength) ->
-      it "replaces words in '#{input}'"
+      it "replaces words in '#{input}'", ->
+        expected = input.length - wordlength + 1 # one for the single-character replacement
+
+        actual = substitute input
+        actual.should.have.length expected
 
     testSomething 'password', 8
     testSomething '1password2', 8
