@@ -9,23 +9,28 @@ replace = require './replace'
 
 module.exports = improve = (input) ->
 
+  # password with all four character types still needs to be more than 12 characters long
+  if input.length <= 12
+    return input + "! 1abcdefghij"[0..13-input.length]
+
   typesused = whichtypes input
   unused = _.difference chartypes.ALL, typesused
 
-  if unused.length
-    added = switch unused[0]
-      when chartypes.LETTER then 'a'
-      when chartypes.NUMBER then '1'
-      when chartypes.WHITESPACE then ' '
-      when chartypes.OTHER then '!'
+  typesseen = []
+  for i in [0...input.length]
+    ch = input[i]
+    ty = classify ch
 
-    "#{input}#{added}"
+    if ty is chartypes.LETTER and _.contains typesseen, ty
+      nextty = if unused.length
+        unused.pop()
+      else
+        chartypes.NUMBER
 
-  else
-    lastchar = input[-1..][0]
-    added = if chartypes.LETTER is classify lastchar
-      '1'
-    else
-      'a'
+      prefix = input[...i]
+      replacement = replace input[i], nextty
+      suffix = input[i+1..]
 
-    "#{input}#{added}"
+      return "#{prefix}#{replacement}#{suffix}"
+
+    typesseen.push ty
