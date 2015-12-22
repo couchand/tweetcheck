@@ -5,3 +5,10 @@ module.exports = types =
   NUMBER: {}
   WHITESPACE: {}
   OTHER: {}
+
+types.ALL = [
+    types.LETTER
+    types.NUMBER
+    types.WHITESPACE
+    types.OTHER
+  ]
