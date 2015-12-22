@@ -1,9 +1,11 @@
 # score a password
 
+_ = require 'underscore'
+
 substitute = require './substitute'
 numtypes = require './numtypes'
 
-module.exports = score = (input) ->
+score = (input) ->
 
   shortened = substitute input
 
@@ -11,3 +13,5 @@ module.exports = score = (input) ->
   shorttypes = numtypes shortened
 
   shortlength * shorttypes
+
+module.exports = _.memoize score

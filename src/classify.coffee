@@ -1,9 +1,11 @@
 # classify characters
 
+_ = require 'underscore'
+
 chartypes = require './chartypes'
 whitespace = require './whitespace'
 
-module.exports = classify = (char) ->
+classify = (char) ->
 
   ch = char[0]
 
@@ -18,3 +20,5 @@ module.exports = classify = (char) ->
 
   else
     chartypes.OTHER
+
+module.exports = _.memoize classify
