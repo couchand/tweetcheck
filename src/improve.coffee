@@ -5,33 +5,14 @@ _ = require 'underscore'
 chartypes = require './chartypes'
 classify = require './classify'
 whichtypes = require './whichtypes'
-bestcover = require './bestcover'
 score = require './score'
 replace = require './replace'
 
 # the kernel: improve a bit
 kernel = (input) ->
 
-  cover = bestcover input
-  cover = _.filter cover, (c) -> c.length > 1
-
   typesused = whichtypes input
   unused = _.difference chartypes.ALL, typesused
-
-  if cover.length > 0
-    original = cover[0]
-
-    subtype = if unused.length
-      unused[0]
-    else
-      chartypes.NUMBER
-    sub = replace original[1], subtype
-
-    replacement = original[0] + sub
-    if original.length > 2
-      replacement = replacement + original[2..]
-
-    return input.replace original, replacement
 
   if unused.length
     added = switch unused[0]

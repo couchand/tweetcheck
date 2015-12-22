@@ -1,16 +1,14 @@
 # substitute a single letter for english words
 
 _ = require 'underscore'
-
-bestcover = require './bestcover'
+words = require 'an-array-of-english-words'
+words = _.sortBy words, (w) -> -w.length
 
 module.exports = substitute = (input) ->
 
-  cover = bestcover input
-
   replaced = input
 
-  for word in cover
+  for word in words
     replaced = replaced.replace word, 'a'
 
   replaced
