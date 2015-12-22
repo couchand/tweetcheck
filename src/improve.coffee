@@ -5,11 +5,9 @@ _ = require 'underscore'
 chartypes = require './chartypes'
 classify = require './classify'
 whichtypes = require './whichtypes'
-score = require './score'
 replace = require './replace'
 
-# the kernel: improve a bit
-kernel = (input) ->
+module.exports = improve = (input) ->
 
   typesused = whichtypes input
   unused = _.difference chartypes.ALL, typesused
@@ -31,13 +29,3 @@ kernel = (input) ->
       'a'
 
     "#{input}#{added}"
-
-# the husk: improve enough
-module.exports = improve = (input) ->
-
-  current = input
-
-  while 50 > score current
-    current = kernel current
-
-  current
