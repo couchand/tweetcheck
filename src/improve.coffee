@@ -6,6 +6,7 @@ chartypes = require './chartypes'
 classify = require './classify'
 whichtypes = require './whichtypes'
 replace = require './replace'
+substitute = require './substitute'
 
 module.exports = improve = (input) ->
 
@@ -16,21 +17,18 @@ module.exports = improve = (input) ->
   typesused = whichtypes input
   unused = _.difference chartypes.ALL, typesused
 
-  typesseen = []
-  for i in [0...input.length]
-    ch = input[i]
-    ty = classify ch
+  substitution = (word) ->
+    newchars = for i in [1...word.length]
 
-    if ty is chartypes.LETTER and _.contains typesseen, ty
+      ch = word[i]
+
       nextty = if unused.length
         unused.pop()
       else
         chartypes.NUMBER
 
-      prefix = input[...i]
-      replacement = replace input[i], nextty
-      suffix = input[i+1..]
+      replace ch, nextty
 
-      return "#{prefix}#{replacement}#{suffix}"
+    word[0] + newchars.join ''
 
-    typesseen.push ty
+  substitute input, substitution
