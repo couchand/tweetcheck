@@ -1,6 +1,7 @@
 # improve a password
 
 _ = require 'underscore'
+words = require 'an-array-of-english-words'
 
 chartypes = require './chartypes'
 classify = require './classify'
@@ -8,27 +9,31 @@ whichtypes = require './whichtypes'
 replace = require './replace'
 substitute = require './substitute'
 
-module.exports = improve = (input) ->
+substitution = (unused=[]) -> (word) ->
+  newchars = for i in [1...word.length]
 
-  # password with all four character types still needs to be more than 12 characters long
-  if input.length <= 12
-    return input + "! 1abcdefghij"[0..13-input.length]
+    ch = word[i]
+
+    nextty = if unused.length
+      unused.pop()
+    else
+      chartypes.NUMBER
+
+    replace ch, nextty
+
+  word[0] + newchars.join ''
+
+randomLeetWord = ->
+  words[Math.floor Math.random() * words.length]
+
+module.exports = improve = (input) ->
 
   typesused = whichtypes input
   unused = _.difference chartypes.ALL, typesused
 
-  substitution = (word) ->
-    newchars = for i in [1...word.length]
+  # password with all four character types still needs to be more than 12 characters long
+  if input.length <= 12
+    word = randomLeetWord()
+    return input + ' ' + substitution(_.difference unused, [chartypes.WHITESPACE])(word)
 
-      ch = word[i]
-
-      nextty = if unused.length
-        unused.pop()
-      else
-        chartypes.NUMBER
-
-      replace ch, nextty
-
-    word[0] + newchars.join ''
-
-  substitute input, substitution
+  substitute input, substitution unused
